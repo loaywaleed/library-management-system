@@ -14,6 +14,8 @@ This is a simple library management system. It allows to manage books, authors a
 
 - ORM:`Spring Data JPA`
 
+- Testing:`JUnit` and `Mockito`
+
 ### Authentication:
 `JWT` - JSON Web Token
 - All endpoints are protected with JWT. except `"/user/signin"` for login and `"/user/signup"` for registration.
@@ -22,6 +24,9 @@ This is a simple library management system. It allows to manage books, authors a
     - password: `admin` 
     - example: POST http://localhost:8080/users/signin?username=admin&password=admin 
   to return a JWT for the sake of testing then use it as bearer token to access all the other endpoints.
+
+### Testing:
+- Unit tests are written for all the services (par user controller so far)
 
 ### API Documentation:
 `Swagger` - `http://localhost:8080/swagger-ui.html`
