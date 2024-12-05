@@ -17,6 +17,13 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    /**
+     * Create a new book.
+     *
+     * @param book the book to create
+     * @return the created book
+     * @throws ConflictException if a book with the same ISBN already exists
+     */
     public Book createBook(Book book) {
         if (bookRepository.findByIsbn(book.getIsbn()).isPresent()) {
             throw new ConflictException("A book with the Isbn " + book.getIsbn() + " already exists.");
@@ -24,19 +31,45 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    /**
+     * Get all books.
+     *
+     * @return a list of all books
+     */
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
+    /**
+     * Get a book by ID.
+     *
+     * @param id the ID of the book to retrieve
+     * @return the book with the specified ID
+     * @throws ResourceNotFoundException if the book is not found
+     */
     public Book getBookById(long id) {
         return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
     }
 
+    /**
+     * Delete a book by ID.
+     *
+     * @param id the ID of the book to delete
+     * @throws ResourceNotFoundException if the book is not found
+     */
     public void deleteBookById(long id) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
         bookRepository.delete(book);
     }
 
+    /**
+     * Update a book by ID.
+     *
+     * @param id   the ID of the book to update
+     * @param book the updated book details
+     * @return the updated book
+     * @throws ResourceNotFoundException if the book is not found
+     */
     public Book updateBookById(long id, Book book) {
         Book bookToUpdate = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
