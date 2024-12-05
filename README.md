@@ -16,6 +16,8 @@ This is a simple library management system. It allows to manage books, authors a
 
 - Testing:`JUnit` and `Mockito`
 
+- Caching: Spring Caching
+
 ### Authentication:
 `JWT` - JSON Web Token
 - All endpoints are protected with JWT. except `"/user/signin"` for login and `"/user/signup"` for registration.
