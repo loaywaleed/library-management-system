@@ -10,12 +10,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 import librarymanagement.service.UserService;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableCaching
 public class LibraryManagementApp implements CommandLineRunner {
 
   final UserService userService;

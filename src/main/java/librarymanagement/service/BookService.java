@@ -5,6 +5,9 @@ import librarymanagement.exception.ResourceNotFoundException;
 import librarymanagement.model.Book;
 import librarymanagement.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,6 +27,7 @@ public class BookService {
      * @return the created book
      * @throws ConflictException if a book with the same ISBN already exists
      */
+    @CachePut(value = "books", key = "#book.isbn")
     public Book createBook(Book book) {
         if (bookRepo.findByIsbn(book.getIsbn()).isPresent()) {
             throw new ConflictException("A book with the Isbn " + book.getIsbn() + " already exists.");
@@ -36,6 +40,7 @@ public class BookService {
      *
      * @return a list of all books
      */
+    @Cacheable(value = "books")
     public List<Book> getAllBooks() {
         return bookRepo.findAll();
     }
@@ -47,6 +52,7 @@ public class BookService {
      * @return the book with the specified ID
      * @throws ResourceNotFoundException if the book is not found
      */
+    @Cacheable(value = "books", key = "#id")
     public Book getBookById(long id) {
         return bookRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
     }
@@ -57,6 +63,7 @@ public class BookService {
      * @param id the ID of the book to delete
      * @throws ResourceNotFoundException if the book is not found
      */
+    @CacheEvict(value = "books", key = "#id")
     public void deleteBookById(long id) {
         Book book = bookRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
         bookRepo.delete(book);
@@ -70,6 +77,7 @@ public class BookService {
      * @return the updated book
      * @throws ResourceNotFoundException if the book is not found
      */
+    @CachePut(value = "books", key = "#id")
     public Book updateBookById(long id, Book book) {
         Book bookToUpdate = bookRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
