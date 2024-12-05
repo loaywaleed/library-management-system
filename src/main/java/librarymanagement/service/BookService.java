@@ -15,7 +15,7 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookRepository bookRepo;
 
     /**
      * Create a new book.
@@ -25,10 +25,10 @@ public class BookService {
      * @throws ConflictException if a book with the same ISBN already exists
      */
     public Book createBook(Book book) {
-        if (bookRepository.findByIsbn(book.getIsbn()).isPresent()) {
+        if (bookRepo.findByIsbn(book.getIsbn()).isPresent()) {
             throw new ConflictException("A book with the Isbn " + book.getIsbn() + " already exists.");
         }
-        return bookRepository.save(book);
+        return bookRepo.save(book);
     }
 
     /**
@@ -37,7 +37,7 @@ public class BookService {
      * @return a list of all books
      */
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+        return bookRepo.findAll();
     }
 
     /**
@@ -48,7 +48,7 @@ public class BookService {
      * @throws ResourceNotFoundException if the book is not found
      */
     public Book getBookById(long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
+        return bookRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
     }
 
     /**
@@ -58,8 +58,8 @@ public class BookService {
      * @throws ResourceNotFoundException if the book is not found
      */
     public void deleteBookById(long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
-        bookRepository.delete(book);
+        Book book = bookRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
+        bookRepo.delete(book);
     }
 
     /**
@@ -71,12 +71,12 @@ public class BookService {
      * @throws ResourceNotFoundException if the book is not found
      */
     public Book updateBookById(long id, Book book) {
-        Book bookToUpdate = bookRepository.findById(id)
+        Book bookToUpdate = bookRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
         bookToUpdate.setTitle(book.getTitle());
         bookToUpdate.setAuthor(book.getAuthor());
         bookToUpdate.setIsbn(book.getIsbn());
         bookToUpdate.setPublicationYear(book.getPublicationYear());
-        return bookRepository.save(bookToUpdate);
+        return bookRepo.save(bookToUpdate);
     }
 }
