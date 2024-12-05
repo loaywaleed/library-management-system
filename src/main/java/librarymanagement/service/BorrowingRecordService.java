@@ -25,7 +25,6 @@ public class BorrowingRecordService {
     private BorrowingRecordRepository borrowingRecordRepo;
 
     // Create a new borrowing record
-    @Transactional
     public BorrowingRecord borrowBook(Long bookId, Long patronId) {
 
         Book book = bookRepo.findById(bookId).orElseThrow(() ->
@@ -42,5 +41,16 @@ public class BorrowingRecordService {
         borrowingRecord.setBorrowDate(currentDate);
         borrowingRecord.setStatus("Borrowed");
         return borrowingRecordRepo.save(borrowingRecord);
+    }
+
+    // Update an existing borrowing record
+    public BorrowingRecord updateBorrowingRecord(Long id, Long patronId, BorrowingRecord updatedRecord) {
+        BorrowingRecord existingRecord = borrowingRecordRepo.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("BorrowingRecord", "ID", id));
+
+        existingRecord.setReturnDate(updatedRecord.getReturnDate());
+        existingRecord.setStatus(updatedRecord.getStatus());
+
+        return borrowingRecordRepo.save(existingRecord);
     }
 }

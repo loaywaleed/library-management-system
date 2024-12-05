@@ -1,5 +1,4 @@
 package librarymanagement.controller;
-import javax.transaction.Transactional;
 import librarymanagement.service.BorrowingRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +19,14 @@ public class BorrowingRecordController {
             @PathVariable Long patronId) {
         BorrowingRecord savedRecord = borrowingRecordService.borrowBook(bookId, patronId);
         return ResponseEntity.status(201).body(savedRecord);
+    }
+
+    @PutMapping("/borrow/{bookid}/patrons/{patronId}")
+    public ResponseEntity<BorrowingRecord> updateBorrowingRecord(
+            @PathVariable Long bookId,
+            @PathVariable Long patronId,
+            @RequestBody BorrowingRecord updatedRecord) {
+        BorrowingRecord updated = borrowingRecordService.updateBorrowingRecord(bookId, patronId, updatedRecord);
+        return ResponseEntity.ok(updated);
     }
 }
