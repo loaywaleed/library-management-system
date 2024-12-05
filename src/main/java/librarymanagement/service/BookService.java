@@ -34,7 +34,7 @@ public class BookService {
         bookRepository.delete(book);
     }
 
-    public Book updatePatronById(long id, Book book) {
+    public Book updateBookById(long id, Book book) {
         Book bookToUpdate = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "id", id));
         bookToUpdate.setTitle(book.getTitle());
