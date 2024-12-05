@@ -13,6 +13,7 @@ import librarymanagement.exception.ResourceNotFoundException;
 import java.util.Date;
 
 @Service
+@Transactional
 public class BorrowingRecordService {
     @Autowired
     private BookRepository bookRepo;
