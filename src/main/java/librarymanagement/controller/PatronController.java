@@ -1,17 +1,10 @@
 package librarymanagement.controller;
-//import com.library.rest.exceptions.ConflictException;
-//import com.library.rest.exceptions.ResourceNotFoundException;
-//import com.library.rest.models.Patron;
-//import com.library.rest.repo.PatronRepo;
-import librarymanagement.exception.ResourceNotFoundException;
 import librarymanagement.model.Patron;
-import librarymanagement.repository.PatronRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import librarymanagement.service.PatronService;
-
 import java.util.List;
 
 
